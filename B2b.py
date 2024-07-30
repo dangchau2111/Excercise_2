@@ -1,18 +1,6 @@
 import numpy as np
 
 def triplet_loss(anchor, positives, negatives, margin=1.0):
-    """
-    Calculate the Triplet Loss with multiple positive and negative samples.
-
-    Parameters:
-    - anchor: The anchor vector (numpy array)
-    - positives: List of positive vectors (numpy array)
-    - negatives: List of negative vectors (numpy array)
-    - margin: The margin value (float)
-
-    Returns:
-    - loss: The computed triplet loss (float)
-    """
     # Initialize the loss
     loss = 0
 
@@ -31,11 +19,11 @@ def triplet_loss(anchor, positives, negatives, margin=1.0):
     
     return loss
 
-# Ví dụ sử dụng
+# Example usage
 anchor = np.array([1.0, 2.0])
 positives = [np.array([1.1, 2.1]), np.array([0.9, 1.9])]
 negatives = [np.array([3.0, 3.0]), np.array([4.0, 4.0]), np.array([5.0, 5.0]), np.array([6.0, 6.0]), np.array([7.0, 7.0])]
 
-# Tính Triplet Loss với margin = 1.0
+# Calculate Triplet Loss with margin = 1.0
 loss = triplet_loss(anchor, positives, negatives, margin=1.0)
 print(f'Triplet Loss: {loss}')
