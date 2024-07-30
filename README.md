@@ -1,44 +1,57 @@
-# Excercise_2
+# Triplet Loss for Machine Learning
 
-# Triplet Loss Calculation
+This README explains the concept of Triplet Loss, with two different scenarios: 
+1. Basic Triplet Loss with one positive and one negative sample.
+2. Extended Triplet Loss with multiple positive and negative samples.
 
-This repository contains Python code for calculating the Triplet Loss, which is commonly used in training deep learning models for tasks such as face recognition or metric learning. The Triplet Loss function helps ensure that an anchor sample is closer to positive samples of the same class than to negative samples from different classes by a certain margin.
+## Overview
 
-## Code Explanation
+Triplet Loss is a loss function used in machine learning to train models to produce embeddings or feature vectors that ensure the similarity of similar items and the dissimilarity of different items. The key idea is to minimize the distance between an anchor and positive samples while maximizing the distance between the anchor and negative samples.
 
-### B2a: Single Positive and Negative Sample
+## 1. Basic Triplet Loss
 
-The first code snippet implements the Triplet Loss calculation for a single positive and negative sample. The formula for Triplet Loss is:
+### Mathematical Formula
 
-Loss=max \text{Loss} = \max(\text{pos\_dist} - \text{neg\_dist} + \text{margin}, 0) 
+For a single positive and a single negative sample, the Triplet Loss is computed as:
 
-- `pos_dist` is the squared Euclidean distance between the anchor and positive sample.
-- `neg_dist` is the squared Euclidean distance between the anchor and negative sample.
-- `margin` is a hyperparameter that enforces a minimum separation between positive and negative distances.
+$$
+\text{Triplet Loss}(a, p, n, \alpha) = \max\left(0, \text{D}(a, p) - \text{D}(a, n) + \alpha\right)
+$$
 
-Example usage demonstrates how to calculate the Triplet Loss with specific values for anchor, positive, and negative samples.
+Where:
+- **`a`**: Anchor sample
+- **`p`**: Positive sample (same class as anchor)
+- **`n`**: Negative sample (different class from anchor)
+- **`D(x, y)`**: Euclidean distance between samples \(x\) and \(y\)
+- **`α`** (alpha): Margin to ensure that the anchor-positive distance is smaller than the anchor-negative distance by at least `α`
 
-### B2b: Multiple Positive and Negative Samples
+### Explanation
 
-The second code snippet extends the Triplet Loss calculation to handle multiple positive and negative samples. For each positive sample, it computes the distance to each negative sample and sums up the losses.
+- **Objective**: Ensure that the distance between the anchor and the positive sample is smaller than the distance between the anchor and the negative sample by at least the margin `α`.
+- **Function**: The loss is zero if the anchor-positive distance plus the margin is less than the anchor-negative distance. Otherwise, it encourages the model to reduce the anchor-positive distance or increase the anchor-negative distance.
 
-- `positives` is a list of positive vectors.
-- `negatives` is a list of negative vectors.
-- For each pair of positive and negative samples, the loss is calculated and accumulated.
+## 2. Extended Triplet Loss
 
-## Usage
+When dealing with multiple positive and negative samples, the Triplet Loss is extended to:
 
-To use the provided functions, simply call them with appropriate numpy arrays representing anchor, positive, and negative samples. Adjust the `margin` parameter as needed to control the separation margin between positive and negative pairs.
+$$
+\text{Triplet Loss}(a, \{p_1, p_2\}, \{n_1, n_2, n_3, n_4, n_5\}, \alpha) = \frac{1}{|\text{positives}| \times |\text{negatives}|} \sum_{i=1}^{|\text{positives}|} \sum_{j=1}^{|\text{negatives}|} \max\left(0, \text{D}(a, p_i) - \text{D}(a, n_j) + \alpha\right)
+$$
 
-## Example
+Where:
+- **`{p_1, p_2}`**: Set of positive samples
+- **`{n_1, n_2, n_3, n_4, n_5}`**: Set of negative samples
+- **`|\text{positives}|`**: Number of positive samples
+- **`|\text{negatives}|`**: Number of negative samples
 
-The provided example code demonstrates how to use both implementations of the Triplet Loss function. Ensure to replace the sample data with your own vectors as needed.
+### Explanation
 
-## Requirements
+- **Objective**: Generalize the basic Triplet Loss to handle multiple positive and negative samples. This ensures that the anchor is closer to all positive samples and farther from all negative samples.
+- **Function**: The loss is averaged over all positive-negative pairs. It helps the model learn a more robust feature space by considering multiple comparisons, which improves the embedding's quality.
 
-- numpy
+## Summary
 
-Install the required packages using pip:
+- **Basic Triplet Loss** focuses on one positive and one negative sample to ensure the anchor is closer to the positive and farther from the negative.
+- **Extended Triplet Loss** scales this approach to multiple positive and negative samples, averaging the loss across all pairs to improve the model's learning.
 
-```bash
-pip install numpy
+This loss function helps in training models to learn better feature representations for tasks such as face recognition and image retrieval, where relative distances between samples are crucial.
