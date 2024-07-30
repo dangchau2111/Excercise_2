@@ -41,8 +41,8 @@ $$
 Where:
 - **`{p_1, p_2}`**: Set of positive samples
 - **`{n_1, n_2, n_3, n_4, n_5}`**: Set of negative samples
-- **`|\text{positives}|`**: Number of positive samples
-- **`|\text{negatives}|`**: Number of negative samples
+- **`|positives|`**: Number of positive samples
+- **`|negatives|`**: Number of negative samples
 
 ### Explanation
 
